@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+{% block content %}
+<h3>update Movie</h3>
+<form method="post">
+  {% csrf_token %}
+  {{ MovieForm.as_p }}
+  <button type="submit">Update</button>
+</form>
+{% endblock %}
