@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Genre(models.Model):
-    name = models.CharField(max_length=200, default=None )
+    name = models.CharField(max_length=200, default="Family" )
 
     def __str__(self):
         return (self.name)
@@ -17,7 +17,7 @@ class Movie(models.Model):
     popularity = models.FloatField()
     director = models.CharField(max_length=220, default=None)
     imdb_score = models.FloatField()
-    genre = models.ManyToManyField(Genre)
+    # genre = models.ManyToManyField(Genre)
 
     def __str__(self):
         return (self.name)

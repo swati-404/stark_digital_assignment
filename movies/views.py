@@ -13,10 +13,12 @@ class IndexView(APIView):
 
     allowed_methods = ['GET']
     serializer_class = MovieSerializer
-def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
+        print("$$$$$$$$$$$")
         queryset = Movie.objects.all()
-
+        print("@@@@@")
         name = request.query_params.get('name', None)
+        print(name)
         if name is not None:
             queryset = queryset.filter(name__icontains=name)
         serializer = self.serializer_class(queryset, many=True)
@@ -39,10 +41,21 @@ def index(request):
 def update(request, id):
     mov = Movie.objects.get(id=id)
     form = MovieForm(request.POST, instance=mov)
+    print("update")
+    print(form.data)
     if form.is_valid():
+        print("form valid")
         form.save()
-        # return redirect("/")
+        return redirect("http://127.0.0.1:8000/home/")
+        print("ok")
     return render(request, 'edit.html', {'mov': mov})
+
+# def update(request, id):
+#     res = Movie.objects.get(pk=id)
+#     res.response = Movie.POST.get('Response')
+#     res.save()
+#     return render(request, 'update_add.html', {'rform': res})
+
 
 # def update(request, id):
 #     mov = Movie.objects.get(id=id)
@@ -53,23 +66,27 @@ def update(request, id):
 #     return render(request, 'update.html', {'mov': mov})
 
 def delete(request,id):
-    print(id)
     mov = Movie.objects.filter(pk=id)
     mov.delete()
-    return HttpResponse('Movie deleted!!')
+    return redirect('http://127.0.0.1:8000/home')
 
 
-def create(request):
+def New_Movie(request):
+    print("Create")
     if request.method == "POST":
+        print(" in if")
         form = MovieForm(request.POST)
         if form.is_valid():
+            print("form valid")
             try:
                 form.save()
                 return redirect('home/')
             except:
                 pass
+        print("end if")
     else:
         form = MovieForm()
+
     return render(request, 'create_movie.html',
                   {'form': form}
                   )
