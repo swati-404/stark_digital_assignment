@@ -50,7 +50,7 @@ Hi {{ user.username }}!
 </div>
 
 
-{% elif request.user.is_authenticated %}
+{% elif user.is_authenticated %}
 Hello {{ user.username }}!
 <p><a href="{% url 'logout' %}">Log Out</a></p>
 <body>
@@ -68,10 +68,10 @@ Hello {{ user.username }}!
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <div class="row">
-                    {% for i in movie %}
+                    {% for i in movies %}
                     <div class="col-xs-3 col-sm-3 col-md-3">
                         <div class="card" style="width: 18rem;">
-                            <img src='{% static "img/test1.jpg" %}' class="card-img-top" alt="...">
+                            <img src='{{i.poster_url}}' class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title">{{i.name}}</h5>
                                 <p class="card-text">Director: {{i.director}}</p>

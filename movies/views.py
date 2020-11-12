@@ -15,7 +15,6 @@ APIs to search Movie
 class IndexView(APIView):
     allowed_methods = ['GET']
     serializer_class = MovieSerializer
-
     def get(self, request, *args, **kwargs):
         queryset = Movie.objects.all()
         name = request.query_params.get('name', None)
@@ -23,6 +22,57 @@ class IndexView(APIView):
             queryset = queryset.filter(name__icontains=name)
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+"""
+Api to create Movie
+"""
+class CreateMovieAPIView(APIView):
+    def post(self,request,format=None):
+        poster_url = request.data["poster_url"]
+        serializer = MovieSerializer(data=request.data)
+        print(request.data)
+        if serializer.is_valid():
+            print(
+                "valid"
+            )
+            name = serializer.validated_data.get("name")
+            popularity = serializer.validated_data.get("popularity")
+            director = serializer.validated_data.get("director")
+            imdb_score = serializer.validated_data.get("imdb_score")
+            genre = serializer.validated_data.get("genre")
+            id = serializer.save()
+            poster_obj = {
+                "movie_id": id,
+                "poster_url":poster_url,
+            }
+            Poster.objects.create(**poster_obj)
+            print(serializer.data['id'])
+            return Response(status=status.HTTP_201_CREATED)
+
+        else:
+            return Response(serializer.errors)
+        # return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+"""Api to get movies"""
+class Movies_list(APIView):
+    def get(self, request):
+        all_movies = Movie.objects.all()
+        movie_serializers = MovieSerializer(all_movies,many=True)
+        for movie in movie_serializers.data:
+            poster_id = Poster.objects.get(movie_id=movie['id']).id
+            poster_url = Poster.objects.get(movie_id=movie['id']).poster_url
+            movie['poster_id'] = poster_id
+            movie['poster_url'] = poster_url
+            genres = movie['genre']
+            genres_list = []
+            for genre in genres:
+                genre_name = Genre.objects.get(pk=genre).name
+                genres_list.append(genre_name)
+                # if genres_list == '' else '' + genre_name)
+                # genres_text = genres_list + (genre_name if genres_list == '' else ', ' + genre_name)
+            movie['genre'] = genres_list
+        return Response({'Movies': movie_serializers.data})
+
 
 """
 To User Login
