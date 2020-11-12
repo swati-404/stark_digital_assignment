@@ -3,36 +3,43 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 <form method="POST" class="post-form" action="/update/{{mov.id}}/">
-     {% csrf_token %}
+    {% csrf_token %}
     <div class="container">
         <br>
-    <div class="form-group row">
-    <label class="col-sm-1 col-form-label"></label>
-    <div class="col-sm-4">
-    <h3>Update Details</h3>
-    </div>
-  </div>
+        <div class="form-group row">
+            <label class="col-sm-1 col-form-label"></label>
+            <div class="col-sm-4">
+                <h3>Update Details</h3>
+            </div>
+        </div>
 
 
-    <div class="col-sm-12">
-        <div>
-        <label class="col-sm-2 col-form-label">Movie Name:</label>
-        <input type="text" name="name" id="id_mname" required maxlength="100" value="{{ mov.name }}" />
-
-  </div>
-        <div>
-        <label class="col-sm-2 col-form-label">Popularity:</label>
-        <input type="text" name="popularity" id="id_mpop" required maxlength="100" value="{{ mov.popularity }}" />
-    </div>
-        <div>
-        <label class="col-sm-2 col-form-label">Director:</label>
-        <input type="text" name="director" id="id_mdir" required maxlength="100" value="{{ mov.director }}" />
-    </div>
-        <div>
-        <label class="col-sm-2 col-form-label">imdb_score:</label>
-        <input type="text" name="imdb_score" id="id_mscore" required maxlength="100" value="{{ mov.imdb_score }}" />
+        <div class="col-sm-12">
             <div>
-            <button type="submit" class="btn btn-success">Update</button>
-  </div>
+                <label class="col-sm-2 col-form-label">Movie Name:</label>
+                <input type="text" name="name" id="id_mname" required maxlength="100" value="{{ mov.name }}"/>
 
-{% endblock %}
+            </div>
+            <div>
+                <label class="col-sm-2 col-form-label">Popularity:</label>
+                <input type="text" name="popularity" id="id_mpop" required maxlength="100"
+                       value="{{ mov.popularity }}"/>
+            </div>
+            <div>
+                <label class="col-sm-2 col-form-label">Director:</label>
+                <input type="text" name="director" id="id_mdir" required maxlength="100" value="{{ mov.director }}"/>
+            </div>
+            <div>
+                <label class="col-sm-2 col-form-label">Genre:</label>
+                {{form.genre }}
+            </div>
+            <div>
+                <div>
+                    <label class="col-sm-2 col-form-label">imdb_score:</label>
+                    <input type="text" name="imdb_score" id="id_mscore" required maxlength="100"
+                           value="{{ mov.imdb_score }}"/>
+                    <div>
+                        <button type="submit" class="btn btn-success">Update</button>
+                    </div>
+
+                    {% endblock %}
