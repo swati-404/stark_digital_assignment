@@ -9,6 +9,9 @@ from .serializers import MovieSerializer, PosterSerializer, GenreSerializer
 
 
 # Create your views here.
+"""
+APIs to search Movie
+"""
 class IndexView(APIView):
     allowed_methods = ['GET']
     serializer_class = MovieSerializer
@@ -21,11 +24,15 @@ class IndexView(APIView):
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-
+"""
+To User Login
+"""
 def user_login(request):
     return render(request, 'movies/login_page.html')
 
-
+"""
+To home page
+"""
 def index(request):
     movies = Movie.objects.all()
     movie_serializer = MovieSerializer(movies, many=True)
@@ -41,7 +48,11 @@ def index(request):
     param = {'movies': movie_serializer.data}
     return render(request, 'home.html', param)
 
-
+"""
+To update movie
+param : movie id
+returns :redirects to home page
+"""
 def update(request, id):
     mov = Movie.objects.get(id=id)
     form = MovieForm(request.POST, instance=mov)
@@ -51,13 +62,20 @@ def update(request, id):
         return redirect("http://127.0.0.1:8000/home/")
     return render(request, 'edit.html', param)
 
-
+"""
+To delete movie
+param : movie id
+returns : redirects to home page
+"""
 def delete(request, id):
     mov = Movie.objects.filter(pk=id)
     mov.delete()
     return redirect('http://127.0.0.1:8000/home')
 
-
+"""
+To create new movie
+returns : redirects to home page
+"""
 def New_Movie(request):
     if request.method == "POST":
         form = MovieForm(request.POST)
@@ -69,7 +87,4 @@ def New_Movie(request):
                 pass
     else:
         form = MovieForm()
-
-    return render(request, 'create_movie.html',
-                  {'form': form}
-                  )
+    return render(request, 'create_movie.html',{'form': form})
