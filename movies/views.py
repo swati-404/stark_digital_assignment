@@ -68,8 +68,6 @@ class Movies_list(APIView):
             for genre in genres:
                 genre_name = Genre.objects.get(pk=genre).name
                 genres_list.append(genre_name)
-                # if genres_list == '' else '' + genre_name)
-                # genres_text = genres_list + (genre_name if genres_list == '' else ', ' + genre_name)
             movie['genre'] = genres_list
         return Response({'Movies': movie_serializers.data})
 
